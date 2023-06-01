@@ -7,6 +7,8 @@
 
 const { readFile, writeFile } = require("fs");
 
+console.log("Start");
+
 readFile("./context/first.txt", "utf8", (err, result) => {
   if (err) {
     console.log(err);
@@ -29,7 +31,10 @@ readFile("./context/first.txt", "utf8", (err, result) => {
           return;
         }
         console.log(`Thrid Callback - ${res}`);
+        console.log("Done");
       }
     );
   });
 });
+
+console.log("Starting again");

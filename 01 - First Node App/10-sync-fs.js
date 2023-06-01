@@ -3,6 +3,8 @@
 const { readFileSync, writeFileSync } = require("fs");
 const path = require("path");
 
+console.log("Start");
+
 const filepath = path.join(process.cwd(), "context", "subfolder", "test.txt");
 
 const data = readFileSync(filepath, "utf-8");
@@ -38,3 +40,6 @@ writeFileSync(
   `The Resulted File is : ${firstFile} ${secondFile}`,
   { flag: "a" }
 );
+
+console.log("Done");
+console.log("Starting again");
