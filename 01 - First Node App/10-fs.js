@@ -1,3 +1,5 @@
+// synchronous file system.
+
 const { readFileSync, writeFileSync } = require("fs");
 const path = require("path");
 
@@ -22,7 +24,17 @@ console.log(
   secondFile
 );
 
-const result = writeFileSync(
+/*
+writeFileSync(
   "./context/resultingFile.txt",
   `The Resulted File is : ${firstFile} ${secondFile}`
+);
+*/
+
+// Now if your file (resultingFile.txt) already contains something and you run this writeFileSync - this will override anything present in your file. And if you want to append the value in your file then you have to pass another argumnet which is a {flag : 'a'}, this will ensure the value is appended.
+
+writeFileSync(
+  "./context/resultingFile.txt",
+  `The Resulted File is : ${firstFile} ${secondFile}`,
+  { flag: "a" }
 );
