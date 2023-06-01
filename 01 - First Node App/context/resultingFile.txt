@@ -1,0 +1,1 @@
+The Resulted File is : Hello Abhaya This is your first Text file and you are exploring node js built-in moudles, specially 'fs'. Here you will understand the depth of node js and how we can leverage them to power our Web apps.
