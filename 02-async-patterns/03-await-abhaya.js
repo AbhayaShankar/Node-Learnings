@@ -20,7 +20,21 @@ readFile("../01 - First Node App/context/first.txt", "utf8", (err, data) => {
 
 // You can apply .then().catch() chaining but I am going to stick with async await.
 
-const { readFile } = require("fs");
+// const { readFile, writeFile } = require("fs");
+
+// Also we can skip the below process and simply import module as promises like below
+
+const { readFile, writeFile } = require("fs").promises;
+
+// this retruns a promise , so we dont need to create a new Promise and all those...
+
+// const util = require("util");
+// const readFilePromise = util.promisify(readFile);
+// const writeFilePromise = util.promisify(writeFile);
+
+// reducing this promise statement to a simple promise which node's 'util' module provides us.
+
+/*
 
 const getText = (path) => {
   return new Promise((resolve, reject) => {
@@ -34,12 +48,25 @@ const getText = (path) => {
   });
 };
 
+*/
+
 const start = async () => {
   try {
-    const firstText = await getText("../01 - First Node App/context/first.txt");
-    const secondText = await getText(
-      "../01 - First Node App/context/second.txt"
+    const firstText = await readFile(
+      "../01 - First Node App/context/first.txt",
+      "utf8"
     );
+    const secondText = await readFile(
+      "../01 - First Node App/context/second.txt",
+      "utf8"
+    );
+
+    await writeFile(
+      "./async-await-result.txt",
+      `The result for async await write file is ${firstText} WHICH CONCLUDES ${secondText}`,
+      { flag: "a" }
+    );
+
     console.log(firstText, secondText);
   } catch (error) {
     console.log(error);
