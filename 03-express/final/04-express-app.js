@@ -1,19 +1,26 @@
-const express = require('express')
-const path = require('path')
+const express = require("express");
+const path = require("path");
+const { readFileSync } = require("fs");
 
-const app = express()
+const app = express();
 
-// setup static and middleware
-app.use(express.static('./public'))
+const Homepath = path.join(process.cwd(), "navbar-app", "index.html");
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './navbar-app/index.html'))
-})
+// setup static and middlewares
+app.use(express.static("./public"));
 
-app.all('*', (req, res) => {
-  res.status(404).send('resource not found')
-})
+// ☝️ we could have also used "navbar-app"
+
+// app.get("/", (req, res) => {
+//   res.status(200).send(readFileSync(Homepath, "utf8"));
+// "Adding to static assets -- similar to staticPages in NEXT JS."
+// "SSR - Server side rendering exactly like NEXT JS."
+// });
+
+app.all("*", (req, res) => {
+  res.status(404).send("Page not found");
+});
 
 app.listen(5000, () => {
-  console.log('server is listening on port 5000....')
-})
+  console.log("Server up and runnnign");
+});
