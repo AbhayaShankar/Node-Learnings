@@ -1,9 +1,11 @@
-const num1 = 5;
+const { createReadStream } = require("fs");
 
-const num2 = 20;
+// const stream = createReadStream("./context/big.txt");
+const stream = createReadStream("./context/big.txt", {
+  highWaterMark: 90050,
+  encoding: "utf8",
+});
 
-function addValues() {
-  console.log(`The sum is: ${num1 + num2}`);
-}
-
-addValues();
+stream.on("data", (result) => {
+  console.log(result);
+});
