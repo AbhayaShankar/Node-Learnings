@@ -1,62 +1,26 @@
-const http = require("http");
-const fs = require("fs");
+const express = require("express");
 const path = require("path");
+const { readFileSync } = require("fs");
 
-const filePath1 = path.join(process.cwd(), "navbar-app", "index.html");
-const filePath2 = path.join(process.cwd(), "data.js");
+const app = express();
 
-const file1 = fs.readFileSync(filePath1, "utf8");
-const file2 = fs.readFileSync(filePath2, "utf8");
-const stylesPath = fs.readFileSync("./navbar-app/styles.css");
-const imagePath = fs.readFileSync("./navbar-app/logo.svg");
-const LogicPath = fs.readFileSync("./navbar-app/browser-app.js");
+const Homepath = path.join(process.cwd(), "navbar-app", "index.html");
 
-const server = http.createServer((req, res) => {
-  //   console.log(req.method);
-  //   console.log(req.url);
-  const url = req.url;
+// setup static and middlewares
+app.use(express.static("./public"));
 
-  // Home Page
-  if (url === "/") {
-    res.writeHead(200, { "content-type": "text/html" });
-    res.write(file1);
-    res.end();
-  }
+// ☝️ we could have also used "navbar-app"
 
-  //Styles route
-  else if (url === "/styles.css") {
-    res.writeHead(200, { "content-type": "text/css" });
-    res.write(stylesPath);
-    res.end();
-  }
+// app.get("/", (req, res) => {
+//   res.status(200).send(readFileSync(Homepath, "utf8"));
+// "Adding to static assets -- similar to staticPages in NEXT JS."
+// "SSR - Server side rendering exactly like NEXT JS."
+// });
 
-  //Image route
-  else if (url === "/logo.svg") {
-    res.writeHead(200, { "content-type": "image/svg+xml" });
-    res.write(imagePath);
-    res.end();
-  }
-
-  //Logic route
-  else if (url === "/browser-app.js") {
-    res.writeHead(200, { "content-type": "text/javascript" });
-    res.write(LogicPath);
-    res.end();
-  }
-
-  // About Page
-  else if (url === "/about") {
-    res.writeHead(200, { "content-type": "application/json" });
-    res.write(file2);
-    res.end();
-  }
-
-  // 404 Error Page
-  else {
-    res.writeHead(404, { "content-type": "text/html" });
-    res.write(" <h1>Error page</h1> ");
-    res.end();
-  }
+app.all("*", (req, res) => {
+  res.status(404).send("Page not found");
 });
 
-server.listen(5000);
+app.listen(5000, () => {
+  console.log("Server up and runnnign");
+});
