@@ -7,6 +7,9 @@ const filePath2 = path.join(process.cwd(), "data.js");
 
 const file1 = fs.readFileSync(filePath1, "utf8");
 const file2 = fs.readFileSync(filePath2, "utf8");
+const stylesPath = fs.readFileSync("./navbar-app/styles.css");
+const imagePath = fs.readFileSync("./navbar-app/logo.svg");
+const LogicPath = fs.readFileSync("./navbar-app/browser-app.js");
 
 const server = http.createServer((req, res) => {
   //   console.log(req.method);
@@ -17,6 +20,27 @@ const server = http.createServer((req, res) => {
   if (url === "/") {
     res.writeHead(200, { "content-type": "text/html" });
     res.write(file1);
+    res.end();
+  }
+
+  //Styles route
+  else if (url === "/styles.css") {
+    res.writeHead(200, { "content-type": "text/css" });
+    res.write(stylesPath);
+    res.end();
+  }
+
+  //Image route
+  else if (url === "/logo.svg") {
+    res.writeHead(200, { "content-type": "image/svg+xml" });
+    res.write(imagePath);
+    res.end();
+  }
+
+  //Logic route
+  else if (url === "/browser-app.js") {
+    res.writeHead(200, { "content-type": "text/javascript" });
+    res.write(LogicPath);
     res.end();
   }
 
