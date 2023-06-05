@@ -7,9 +7,6 @@ const app = express();
 // Request ===> Middleware ===> Response
 // Middlewares as the name suggests - comes between req and res and has the data from both req and res.
 
-// 1. use vs route
-// 2. options - our own / express / thrid party.
-
 app.use([authorize, logger]);
 
 app.get("/", (req, res) => {
