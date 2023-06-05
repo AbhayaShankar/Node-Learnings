@@ -22,8 +22,43 @@ app.get("/api/products", (req, res) => {
 });
 
 app.get("/api/products/:id", (req, res) => {
-  const singleProduct = products.find((prod) => +prod.id === +req.params.id);
+  const singleProduct = products.find((prod) => prod.id === +req.params.id);
+
+  if (!singleProduct) {
+    res.status(404).send("Product Doesnot Exist...");
+  }
   res.json(singleProduct);
+});
+
+// our route can get pretty messy
+app.get("/api/products/:id/reviews/:reviewID", (req, res) => {
+  console.log(req.params);
+  res.send("hello review");
+});
+
+// handling query params
+app.get("/api/v1/query", (req, res) => {
+  const { search, limit, sorting } = req.query;
+  let sortedProducts = [...products];
+
+  if (search) {
+    sortedProducts = sortedProducts.filter((product) => {
+      return product.name.startsWith(search);
+    });
+  }
+
+  if (limit) {
+    sortedProducts = sortedProducts.slice(0, +limit);
+  }
+
+  if (sorting === "desc") {
+    sortedProducts = sortedProducts.sort((a, b) => b.id - a.id);
+  }
+
+  res.status(200).json(sortedProducts);
+
+  console.log(req.query);
+  res.send("Hello Query");
 });
 
 app.listen(5000, () => {
