@@ -38,8 +38,13 @@ app.get("/api/products/:id/reviews/:reviewID", (req, res) => {
 
 // handling query params
 app.get("/api/v1/query", (req, res) => {
+  console.log(req.query);
   const { search, limit, sorting } = req.query;
   let sortedProducts = [...products];
+
+  if (sorting === "desc") {
+    sortedProducts = sortedProducts.sort((a, b) => b.id - a.id);
+  }
 
   if (search) {
     sortedProducts = sortedProducts.filter((product) => {
@@ -51,14 +56,11 @@ app.get("/api/v1/query", (req, res) => {
     sortedProducts = sortedProducts.slice(0, +limit);
   }
 
-  if (sorting === "desc") {
-    sortedProducts = sortedProducts.sort((a, b) => b.id - a.id);
+  if (sortedProducts.length < 1) {
+    return res.json({ success: true, data: sortedProducts });
   }
 
-  res.status(200).json(sortedProducts);
-
-  console.log(req.query);
-  res.send("Hello Query");
+  return res.status(200).json(sortedProducts);
 });
 
 app.listen(5000, () => {
