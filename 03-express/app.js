@@ -38,6 +38,25 @@ app.post("/api/postman/people", (req, res) => {
   res.status(201).json({ success: true, data: [...people, name] });
 });
 
+app.put("/api/people/:id", (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  const person = people.find((person) => person.id === +id);
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: `No person found with id : ${id}` });
+  }
+  const newPeople = people.map((peep) => {
+    if (peep.id === +id) {
+      peep.name = name;
+    }
+    return peep;
+  });
+  res.status(200).json({ success: true, data: newPeople });
+});
+
 app.post("/login", (req, res) => {
   console.log(req.body);
   const { name } = req.body;
