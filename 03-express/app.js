@@ -18,7 +18,24 @@ app.get("/api/people", (req, res) => {
 
 app.post("/api/people", (req, res) => {
   console.log("Body", req.body);
-  res.status(201).send("Post Request Successful");
+  const { name } = req.body;
+
+  if (!name) {
+    return res
+      .status(400)
+      .json({ success: false, msg: "Please enter name field" });
+  }
+  res.status(201).json({ success: true, person: name });
+});
+
+app.post("/api/postman/people", (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res
+      .status(400)
+      .json({ success: false, msg: "Please enter name field" });
+  }
+  res.status(201).json({ success: true, data: [...people, name] });
 });
 
 app.post("/login", (req, res) => {
