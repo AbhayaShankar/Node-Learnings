@@ -1,22 +1,13 @@
 const express = require("express");
-const app = express();
+const router = express.Router();
 
-let { people } = require("./data");
+let { people } = require("../data");
 
-// adding static assets.
-app.use(express.static("./methods-public"));
-
-//parse form data using middleware concept...
-app.use(express.urlencoded({ extended: false }));
-
-//parse json...
-app.use(express.json());
-
-app.get("/api/people", (req, res) => {
+router.get("/", (req, res) => {
   res.status(200).json({ success: true, data: people });
 });
 
-app.post("/api/people", (req, res) => {
+router.post("/", (req, res) => {
   console.log("Body", req.body);
   const { name } = req.body;
 
@@ -28,7 +19,7 @@ app.post("/api/people", (req, res) => {
   res.status(201).json({ success: true, person: name });
 });
 
-app.post("/api/postman/people", (req, res) => {
+router.post("/postman", (req, res) => {
   const { name } = req.body;
   if (!name) {
     return res
@@ -38,7 +29,7 @@ app.post("/api/postman/people", (req, res) => {
   res.status(201).json({ success: true, data: [...people, name] });
 });
 
-app.put("/api/people/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
 
@@ -57,7 +48,7 @@ app.put("/api/people/:id", (req, res) => {
   res.status(200).json({ success: true, data: newPeople });
 });
 
-app.delete("/api/people/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   const { id } = req.params;
   const person = people.find((person) => person.id === +id);
 
@@ -68,20 +59,7 @@ app.delete("/api/people/:id", (req, res) => {
   }
   const newPeople = people.filter((peep) => peep.id !== +id);
   console.log(newPeople);
-  res.status(200).json({ success: true, data: newPeople });
+  return res.status(200).json({ success: true, data: newPeople });
 });
 
-app.post("/login", (req, res) => {
-  console.log(req.body);
-  const { name } = req.body;
-
-  if (!name) {
-    return res.status(401).send("Please Enter the Name Field.");
-  } else {
-    return res.status(200).send(`Welcome ${name}`);
-  }
-});
-
-app.listen(5000, () => {
-  console.log("Listening on port 5000");
-});
+module.exports = router;
