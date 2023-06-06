@@ -57,6 +57,20 @@ app.put("/api/people/:id", (req, res) => {
   res.status(200).json({ success: true, data: newPeople });
 });
 
+app.delete("/api/people/:id", (req, res) => {
+  const { id } = req.params;
+  const person = people.find((person) => person.id === +id);
+
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: `no person with id: ${id}` });
+  }
+  const newPeople = people.filter((peep) => peep.id !== +id);
+  console.log(newPeople);
+  res.status(200).json({ success: true, data: newPeople });
+});
+
 app.post("/login", (req, res) => {
   console.log(req.body);
   const { name } = req.body;
