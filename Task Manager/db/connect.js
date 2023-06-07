@@ -4,7 +4,8 @@ const connectionString = `mongodb+srv://${process.env.USER}:${process.env.PASSWO
 
 // mongoose 5.11.10
 
-mongoose
-  .connect(connectionString)
-  .then(() => console.log("Connected"))
-  .catch((err) => console.log(err));
+const connectDB = (url) => {
+  return mongoose.connect(connectionString);
+};
+
+module.exports = connectDB;
