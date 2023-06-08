@@ -1,5 +1,7 @@
 const express = require("express");
 const tasks = require("./routes/tasks");
+
+// For using .env variables in the app.
 require("dotenv").config();
 const connectDB = require("./db/connect");
 
