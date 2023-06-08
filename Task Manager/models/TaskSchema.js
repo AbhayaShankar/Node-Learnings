@@ -1,11 +1,14 @@
 const mongoose = require("mongoose");
 
+// To refer Validation in Mongoose -- refer docs.
+// https://mongoosejs.com/docs/validation.html
+
 const TaskSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "must provide a name"],
     trim: true,
-    maxlength: [20, "max 20 characters are allowed"],
+    maxlength: [30, "max 30 characters are allowed"],
   },
   completed: {
     type: Boolean,
