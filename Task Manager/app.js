@@ -1,5 +1,6 @@
 const express = require("express");
 const tasks = require("./routes/tasks");
+const pageNotFound = require("./middleware/page-not-found");
 
 // For using .env variables in the app.
 require("dotenv").config();
@@ -11,6 +12,7 @@ const port = 3000;
 
 // middleware
 
+app.use(express.static("./public"));
 app.use(express.json());
 
 // Setting up routes -- planning what we would be having or requiring...
@@ -21,11 +23,13 @@ app.use(express.json());
 // app.patch("/api/v1/tasks/:id"); -- update task.
 // app.delete("/api/v1/tasks/:id"); -- delete task.
 
-app.get("/", (req, res) => {
-  res.status(200).send("Home Page");
-});
+// app.get("/", (req, res) => {
+//   res.status(200).send("Home Page");
+// });
 
 app.use("/api/v1/tasks", tasks);
+
+app.use(pageNotFound);
 
 const start = async () => {
   try {
