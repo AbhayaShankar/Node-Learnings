@@ -11,11 +11,14 @@ const createTask = AsyncWrapper(async (req, res) => {
   res.status(201).json({ task });
 });
 
-const getTask = AsyncWrapper(async (req, res) => {
+const getTask = AsyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params;
   const singleTask = await Task.findOne({ _id: taskID }).exec();
 
   if (!singleTask) {
+    const error = new Error("Not Found");
+    error.status = 404;
+    return next(error);
     return res.status(404).json({ msg: `No task with id : ${taskID} found` });
   }
 
