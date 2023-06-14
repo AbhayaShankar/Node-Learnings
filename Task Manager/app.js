@@ -1,6 +1,7 @@
 const express = require("express");
 const tasks = require("./routes/tasks");
 const pageNotFound = require("./middleware/page-not-found");
+const ErrorHandler = require("./middleware/errorHandler");
 
 // For using .env variables in the app.
 require("dotenv").config();
@@ -28,8 +29,8 @@ app.use(express.json());
 // });
 
 app.use("/api/v1/tasks", tasks);
-
 app.use(pageNotFound);
+app.use(ErrorHandler);
 
 const start = async () => {
   try {
