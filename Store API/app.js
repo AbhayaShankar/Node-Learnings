@@ -1,10 +1,11 @@
 require("dotenv").config();
+require("express-async-errors");
 const NotFound = require("./middleware/not-found");
 const ErrorHandler = require("./middleware/error-handler");
+const ProductsRouter = require("./routes/products");
+// Async errors
 
 const connectDB = require("./db/connect");
-
-// Async errors
 
 const express = require("express");
 const app = express();
@@ -20,6 +21,8 @@ app.get("/", (req, res) => {
   );
   //   res.status(200).json({ msg: "Home Page" });
 });
+
+app.use("/api/v1/products", ProductsRouter);
 
 app.use(NotFound);
 app.use(ErrorHandler);
