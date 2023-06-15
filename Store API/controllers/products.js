@@ -1,8 +1,10 @@
 //
+const Product = require("../models/product");
 
 const getAllProductsStatic = async (req, res) => {
-  throw new Error("Testing Async Route");
-  res.status(200).json({ msg: "All Products Testing Route" });
+  const products = await Product.find({ featured: true });
+  //   throw new Error("Testing Async Route");
+  res.status(200).json({ msg: products, nbHits: products.length });
 };
 
 const getAllProducts = async (req, res) => {
