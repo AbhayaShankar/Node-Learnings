@@ -7,8 +7,17 @@ const getAllProductsStatic = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
-  const { name, featured, company, sort, createdAt, fields, limit, page } =
-    req.query;
+  const {
+    name,
+    featured,
+    company,
+    sort,
+    createdAt,
+    fields,
+    limit,
+    page,
+    numericFilters,
+  } = req.query;
 
   // regex in MongoDB
   regexName = { $regex: name, $options: "i" };
@@ -26,8 +35,32 @@ const getAllProducts = async (req, res) => {
     queryObject.company = company;
   }
 
-  console.log("Query Passed in Postman/URL : ", req.query);
-  console.log("Filtered Query Used to Filter Products : ", queryObject);
+  if (numericFilters) {
+    const operatorMap = {
+      ">": "$gt",
+      ">=": "$gte",
+      "=": "$eq",
+      "<": "$lt",
+      "<=": "$lte",
+    };
+    const regEx = /\b(>|>=|=|<|<=)\b/g;
+    let filters = numericFilters.replace(
+      regEx,
+      (matchingExp) => `-${operatorMap[matchingExp]}-`
+    );
+
+    const options = ["price", "ratings"];
+    filters = filters.split(",").forEach((item) => {
+      const [field, operator, value] = item.split("-");
+
+      if (options.includes(field)) {
+        queryObject[field] = { [operator]: +value };
+      }
+    });
+  }
+
+  //   console.log("Query Passed in Postman/URL : ", req.query);
+  console.log("Filtered Query : ", queryObject);
 
   //   const products = await Product.find(queryObject).limit(10);
 
