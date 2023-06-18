@@ -4,8 +4,8 @@
 
 // setup JWT authentication so that only the request with access JWT can access the dashboard page
 
-const CustomAPIError = require("../errors/custom-error");
 const jwt = require("jsonwebtoken");
+const { BadRequestError } = require("../errors");
 
 const login = async (req, res) => {
   const { username, password } = req.body;
@@ -21,14 +21,13 @@ const login = async (req, res) => {
 */
 
   if (!username || !password) {
-    throw new CustomAPIError(
-      "Invalid Credentials - Must provide username and password",
-      400
+    throw new BadRequestError(
+      "Invalid Credentials - Must provide username and password"
     );
   }
 
   if (password.length < 6) {
-    throw new CustomAPIError("Password must be atleast 6 characters long", 400);
+    throw new BadRequestError("Password must be atleast 6 characters long");
   }
 
   //   console.log("Username - ", username, "   Password - ", password);
