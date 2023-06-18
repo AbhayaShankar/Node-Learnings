@@ -43,10 +43,26 @@ const login = async (req, res) => {
 };
 
 const dashboard = async (req, res) => {
-  const FakeToken = Math.floor(Math.random() * 100000);
-  res
-    .status(200)
-    .json({ msg: `User Credentials for Abhaya with Token id : ${FakeToken}` });
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw new CustomAPIError("Token not provided", 401);
+  }
+
+  const Usertoken = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(Usertoken, process.env.JWT_SECRET_KEY);
+
+    const FakeToken = Math.floor(Math.random() * 100000);
+
+    res.status(200).json({
+      msg: `Hello ${decoded.username}`,
+      secret: `User Credentials for Abhaya with Token id : ${FakeToken}`,
+    });
+  } catch (error) {
+    throw new CustomAPIError("Not Authorized to access this route", 401);
+  }
 };
 
 module.exports = { login, dashboard };
