@@ -18,7 +18,6 @@ app.use(express.json());
 // extra packages
 
 // routes
-
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/jobs", JobsRouter);
 
@@ -34,7 +33,7 @@ const port = process.env.PORT || 3000;
 const start = async () => {
   try {
     console.log("Server running");
-    // await connectDB(process.env.MONGO_URI);
+    await connectDB(process.env.MONGO_URI);
     app.listen(port, () =>
       console.log(`Server is listening on port ${port}...`)
     );
