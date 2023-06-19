@@ -30,12 +30,7 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: [true, "Please enter a strong password"],
-    min: 6,
-    max: 12,
-    match: [
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,12}$/,
-      "Please password with atleast one uppercase letter, one lowercase letter, one number and one special character",
-    ],
+    minlength: 6,
   },
 });
 
