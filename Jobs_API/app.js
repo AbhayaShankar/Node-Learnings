@@ -6,6 +6,9 @@ const app = express();
 // Connect DB
 const connectDB = require("./db/connect");
 
+// Protected route authentication
+const authenticatedUser = require("./middleware/authentication");
+
 // Routers
 const AuthRouter = require("./routes/auth");
 const JobsRouter = require("./routes/jobs");
@@ -19,7 +22,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/v1/auth", AuthRouter);
-app.use("/api/v1/jobs", JobsRouter);
+app.use("/api/v1/jobs", authenticatedUser, JobsRouter);
 
 app.get("/", (req, res) => {
   res.send("jobs api");
