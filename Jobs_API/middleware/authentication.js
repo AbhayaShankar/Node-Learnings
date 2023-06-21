@@ -5,9 +5,9 @@ const { UnauthenticatedError } = require("../errors");
 const auth = async (req, res, next) => {
   // check headers
 
-  const authHeader = req.body.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith("Bearer")) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     throw new UnauthenticatedError("Authentication Failed");
   }
 
@@ -19,7 +19,7 @@ const auth = async (req, res, next) => {
     req.user = { userId: payload.userId, name: payload.name };
     next();
   } catch (error) {
-    throw new UnauthenticatedError("Authentication Failed");
+    throw new UnauthenticatedError("Authentication Failed right?");
   }
 };
 

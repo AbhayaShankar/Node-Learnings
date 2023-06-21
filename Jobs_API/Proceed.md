@@ -11,3 +11,5 @@
 6. How to authenticate existing user.
 
 7. Protected route
+
+8. Once Basic setup is done for authentication, setup jobs schema and necessary requirements.
