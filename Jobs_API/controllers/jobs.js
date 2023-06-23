@@ -32,11 +32,52 @@ const createJob = async (req, res) => {
 };
 
 const updateJob = async (req, res) => {
-  res.send("Update a particular Job");
+  const {
+    body: { company, position },
+    params: { id: jobId },
+    user: { userId },
+  } = req;
+
+  if (company === "" && position === "") {
+    throw new BadRequestError("Must provide entries for updation");
+  }
+
+  if (company === "") {
+    throw new BadRequestError("Must provide company name");
+  }
+
+  if (position === "") {
+    throw new BadRequestError("Must provide position of responsibility");
+  }
+
+  const job = await Job.findByIdAndUpdate(
+    { _id: jobId, createdBy: userId },
+    req.body,
+    { new: true, runValidators: true }
+  );
+
+  if (!job) {
+    throw new NotFoundError(`No Job with jobId : ${jobId}`);
+  }
+
+  res.status(StatusCodes.OK).json(job);
 };
 
 const deleteJob = async (req, res) => {
-  res.send("Delete a Job");
+  const {
+    params: { id: jobId },
+    user: { userId },
+  } = req;
+
+  const job = await Job.findByIdAndDelete({ _id: jobId, createdBy: userId });
+
+  if (!job) {
+    throw new NotFoundError(`No Job with jobId : ${jobId} exists`);
+  }
+
+  res
+    .status(StatusCodes.OK)
+    .json({ success: true, msg: "Deleted successfully" });
 };
 
 module.exports = {
