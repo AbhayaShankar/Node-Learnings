@@ -25,12 +25,12 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     )}: ${Object.values(err.keyValue)}`;
   }
 
-  if (err.name === "CastError") {
+  if (err.name === "castError") {
     customError.statusCode = StatusCodes.BAD_REQUEST;
     customError.msg = `No Job found for id : ${err.value}`;
   }
 
-  // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
   return res.status(customError.statusCode).json({ msg: customError.msg });
 };
 
