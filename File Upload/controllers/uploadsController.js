@@ -50,8 +50,6 @@ const uploadImageProduct = async (req, res) => {
   fs.unlinkSync(req.files.image.tempFilePath);
 
   return res.status(StatusCodes.OK).json({ image: { src: result.secure_url } });
-
-  // console.log(result);
 };
 
 module.exports = { uploadImageProduct };
