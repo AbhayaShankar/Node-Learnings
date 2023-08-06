@@ -8,6 +8,7 @@ const authMiddleware = async (req, res, next) => {
     throw new UnAuthorizedError("Token not provided");
   }
 
+  // getting back token
   const Usertoken = authHeader.split(" ")[1];
 
   try {
