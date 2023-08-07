@@ -30,9 +30,19 @@ const login = async (req, res) => {
     throw new BadRequestError("Password must be atleast 6 characters long");
   }
 
-  //   console.log("Username - ", username, "   Password - ", password);
+  // Dummy id for signin using jwt.
+  // In case of a db, we will br having a proper id, with which we can verify if the user is verified or not and then we can authenticate the user for the routes we want.
 
+  // This is for just the demo, it will be provided by the DB.
   const id = new Date().getDate();
+
+  // In jwt.sign({first param, second param, thrid param}) -
+
+  // first is the payload - usually we try to keep is as small as possible and never send any confidential info into payload specially passowrd and stuffs.
+
+  // second is the secret key
+
+  // third is the opeions object, where we cam pass additional opeions to the sign in property.
 
   const token = jwt.sign({ id, username }, process.env.JWT_SECRET_KEY, {
     expiresIn: "30d",
