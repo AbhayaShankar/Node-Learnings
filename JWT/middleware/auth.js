@@ -12,6 +12,9 @@ const authMiddleware = async (req, res, next) => {
   const Usertoken = authHeader.split(" ")[1];
 
   try {
+    // we get access to the payload which we pass in jwt.sign.
+
+    // So in decoded , we have data of the payload which we had passed.
     const decoded = jwt.verify(Usertoken, process.env.JWT_SECRET_KEY);
     const { id, username } = decoded;
     req.user = { id, username };
