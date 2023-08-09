@@ -36,6 +36,11 @@ const login = async (req, res) => {
   // This is for just the demo, it will be provided by the DB.
   const id = new Date().getDate();
 
+  const test = "Abhaya Is user";
+  // Thiss is test case to undertand that - Whatever we pass in on jwt.sign i.e. whatever we pass in payload, we can be able to access it from jwt.verify which is defined in the auth middleware.
+
+  // Now since I passed this test variable in the jwt.sign, I can be able to access that when I verify this token.
+
   // In jwt.sign({first param, second param, thrid param}) -
 
   // first is the payload - usually we try to keep is as small as possible and never send any confidential info into payload specially passowrd and stuffs.
@@ -44,7 +49,7 @@ const login = async (req, res) => {
 
   // third is the opeions object, where we cam pass additional opeions to the sign in property.
 
-  const token = jwt.sign({ id, username }, process.env.JWT_SECRET_KEY, {
+  const token = jwt.sign({ id, username, test }, process.env.JWT_SECRET_KEY, {
     expiresIn: "30d",
   });
 

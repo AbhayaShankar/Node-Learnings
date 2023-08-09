@@ -16,6 +16,7 @@ const authMiddleware = async (req, res, next) => {
 
     // So in decoded , we have data of the payload which we had passed.
     const decoded = jwt.verify(Usertoken, process.env.JWT_SECRET_KEY);
+    // console.log(decoded);
     const { id, username } = decoded;
     req.user = { id, username };
     next();
