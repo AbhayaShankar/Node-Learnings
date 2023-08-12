@@ -2,7 +2,7 @@ require("dotenv").config();
 require("express-async-errors");
 const fileUpload = require("express-fileupload");
 
-//connect to cloudinary
+//connect to cloudinary -- remember to use V2 (or else it wont work)
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,

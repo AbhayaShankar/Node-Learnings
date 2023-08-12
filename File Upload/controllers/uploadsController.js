@@ -53,8 +53,10 @@ const uploadImageProduct = async (req, res) => {
     }
   );
 
+  // console.log(result);
   fs.unlinkSync(req.files.image.tempFilePath);
 
+  // entire url for cloudinary is secure_url - log the result and check for more options available
   return res.status(StatusCodes.OK).json({ image: { src: result.secure_url } });
 };
 
