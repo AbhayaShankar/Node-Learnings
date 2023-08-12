@@ -15,11 +15,17 @@ const uploadImageProductLocal = async (req, res) => {
 
   const productImage = req.files.image;
 
+  // mimetype gives you info about the type of file if is:
+  // Image - png/jpg/svg/jpeg
+  // pdf/word/xlsx etc
   if (!productImage.mimetype.startsWith("image")) {
     throw new CustomError.BadRequestError("Please provide valid Image file");
   }
 
-  if (productImage.size > 204800) {
+  // 30 KB size
+  const KB30 = 1024 * 30;
+
+  if (productImage.size > KB30) {
     throw new CustomError.BadRequestError(
       "Please ensure image is smaller than 30KB"
     );
