@@ -21,7 +21,7 @@ const stripePayment = async (req, res) => {
     currency: "usd",
     description: "Software development testing Stripe Payments",
     shipping: {
-      name: "Jenny Rosen",
+      name: "Abhaya Shankar",
       address: {
         line1: "510 Townsend St",
         postal_code: "98140",
