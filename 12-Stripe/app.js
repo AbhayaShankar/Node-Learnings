@@ -1,23 +1,27 @@
-require('dotenv').config();
-require('express-async-errors');
+require("dotenv").config();
+require("express-async-errors");
 
-const express = require('express');
+const stripePayment = require("./controllers/stripeController");
+
+const express = require("express");
 const app = express();
 
 // controller
 
 // error handler
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.use(express.json());
-app.use(express.static('./public'));
+app.use(express.static("./public"));
 
 // stripe
+app.post("/stripe", stripePayment);
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 const start = async () => {
   try {
